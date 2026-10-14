@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Limestone Block Wall Calculator | Gabion Fabrication</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head>
+<body><main>
+<h1>LIMESTONE BLOCK WALL <span>QUOTE</span> CALCULATOR</h1>
+<p class="sub">Blocks 1000 × 350 × 350 mm with 20 mm mortar joints. Based on Structerre H23R engineering detail.</p>
+<section class="card">
+<label>Wall length (m)</label><div class="pair"><input type="range" id="lenR" min="1" max="100" step="0.5" value="10"><input type="number" id="len" min="0" step="0.5" value="10"></div>
+<label>Visible wall height (mm)</label><div class="pair"><input type="range" id="hR" min="350" max="3000" step="50" value="900"><input type="number" id="h" min="350" step="10" value="900"></div>
+<p id="warn" class="warn" hidden>Over 3000 mm is outside the H23R engineering. Needs separate engineering (calculated at 3000).</p>
+<label>Price per block installed ($)</label><input type="number" id="price" step="1">
+<label class="chk"><input type="checkbox" id="fence"> Colorbond fence over the wall</label>
+<div id="fenceBox" hidden><label>Price per fence post ($, optional)</label><input type="number" id="postPrice" placeholder="leave blank"><p id="fenceOut" class="note"></p></div>
+</section>
+<section class="card result"><div class="big" id="total"></div><div id="perm" class="perm"></div><div id="out"></div></section>
+<section class="card"><h2>ASSUMPTIONS</h2><ul>
+<li>Based on a Structerre H23R single-job engineering detail (max height 3000 mm). Each job needs its own engineering.</li>
+<li>Base width = H/2 + 200 mm (min 650 mm up to 1000 mm high). Embedment 200 mm (300 mm over 1000 mm high).</li>
+<li>Wall tapers evenly from base width to 1 block wide at the top. Courses are 370 mm (block + mortar).</li>
+<li>Stable sand or rock soils only. Free-draining granular backfill. Water table below the bottom of the wall.</li>
+<li>Foundation and backfill compacted to 6 blows/300 mm. Surcharge max 5 kPa.</li>
+<li>Excludes engineering, council or building permit, Water Corporation approval, excavation or removal of fill, drainage, and fence panels.</li>
+<li>Indicative only. Final quote after a site inspection.</li></ul></section>
+</main><script src="limestone.js"></script></body></html>

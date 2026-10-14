@@ -1,0 +1,9 @@
+*{box-sizing:border-box}body{margin:0;font-family:Inter,sans-serif;font-weight:400;background:#f7f7f7;color:#171717}
+main{max-width:640px;margin:auto;padding:20px 16px}h1,h2,.big{font-family:Anton,sans-serif;font-weight:400;letter-spacing:.5px}
+h1{font-size:2rem;line-height:1.1;margin:0 0 8px}h1 span{background:#E8C547;padding:0 6px}.sub{margin:0 0 16px;color:#444}
+.card{background:#fff;border:1px solid #d7d7d7;border-radius:12px;padding:18px;margin-bottom:16px}
+label{display:block;font-weight:700;margin:14px 0 6px}.pair{display:flex;gap:10px;align-items:center}.pair input[type=range]{flex:1;accent-color:#E8C547}
+input[type=number]{width:110px;padding:10px;border:1px solid #d5d5d5;border-radius:8px;font:inherit}#price,#postPrice{width:100%}
+.chk{display:flex;gap:8px;align-items:center}.warn{background:#171717;color:#E8C547;padding:10px;border-radius:8px}
+.result{background:#171717;color:#fff}.big{font-size:3rem;color:#E8C547}.perm{margin-bottom:10px}
+.row{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid #333}.note{font-size:.9rem}ul{padding-left:18px}li{margin:6px 0}

@@ -2,8 +2,7 @@
 const C = {
   BLOCK_L: 1000, BLOCK_W: 350, BLOCK_H: 350, // mm
   MORTAR: 20,            // mm mortar joint (bed + perp + across)
-  PRICE_DEFAULT: 90,     // $ per block installed, ex GST
-  GST: 0.10,             // GST rate
+  PRICE_DEFAULT: 90,     // $ per block installed
   MAX_H: 3000,           // mm, Structerre H23R max
   MIN_BASE: 650,         // mm, min base width for H<=1000
   EMBED_LOW: 200, EMBED_HIGH: 300, EMBED_SWITCH: 1000, // mm
@@ -61,22 +60,22 @@ if (typeof document !== 'undefined') {
     const Hc = Math.min(H, C.MAX_H), e = calc(L, Hc, p), b = calcBret(L, Hc, p), eng = $('eng').checked;
     const r = eng ? e : b;
     $('mode').textContent = eng ? 'Full engineering base width (H23R taper)' : 'Contractor (Bret) layout';
-    $('total').textContent = fmt(r.cost * (1 + C.GST));
-    $('perm').textContent = 'Total inc GST · ' + fmt(r.perM * (1 + C.GST)) + ' / m inc GST';
+    $('total').textContent = fmt(r.cost);
+    $('perm').textContent = fmt(r.perM) + ' / m';
     $('range').hidden = eng || !b.outside;
-    const rows = [['Subtotal (ex GST)', fmt(r.cost)], ['GST (10%)', fmt(r.cost * C.GST)], ['Total (inc GST)', fmt(r.cost * (1 + C.GST))], ['Total blocks', r.blocks], ['Blocks per metre', r.bpm.toFixed(2)]];
+    const rows = [['Total blocks', r.blocks], ['Blocks per metre', r.bpm.toFixed(2)]];
     if (eng) rows.push(['Courses', e.courses + ' (' + e.total + ' mm incl. embedment)'], ['Base width', Math.round(e.base) + ' mm'],
-      ['Embedment', e.embed + ' mm'], ['Blocks wide bottom→top', e.list.join(' · ')], ['Contractor layout would be', fmt(b.cost * (1 + C.GST)) + ' inc GST' + ' (' + b.blocks + ' blocks)']);
-    else { if (b.hi !== b.lo) rows.push(['Range from past quotes', fmt(b.lo * p * (1 + C.GST)) + ' – ' + fmt(b.hi * p * (1 + C.GST)) + ' inc GST (' + b.lo + '–' + b.hi + ' blocks)']);
-      rows.push(['Full engineering base would be', fmt(e.cost * (1 + C.GST)) + ' inc GST' + ' (' + e.blocks + ' blocks)']); }
+      ['Embedment', e.embed + ' mm'], ['Blocks wide bottom→top', e.list.join(' · ')], ['Contractor layout would be', fmt(b.cost) + ' (' + b.blocks + ' blocks)']);
+    else { if (b.hi !== b.lo) rows.push(['Range from past quotes', fmt(b.lo * p) + ' – ' + fmt(b.hi * p) + ' (' + b.lo + '–' + b.hi + ' blocks)']);
+      rows.push(['Full engineering base would be', fmt(e.cost) + ' (' + e.blocks + ' blocks)']); }
     $('out').innerHTML = rows.map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`).join('');
     $('quotes').innerHTML = C.QUOTES.map(q => { const c = calcBret(q.L, q.H, p);
-      return `<tr><td>${q.job}<br><small>${q.L} m × ${q.H} mm${q.note ? ', ' + q.note : ''}</small></td><td>${fmt(q.quote)}</td><td>${fmt(c.cost)}<br><small>${c.blocks} blocks · ${fmt(c.cost * (1 + C.GST))} inc GST</small></td></tr>`; }).join('');
+      return `<tr><td>${q.job}<br><small>${q.L} m × ${q.H} mm${q.note ? ', ' + q.note : ''}</small></td><td>${fmt(q.quote)}</td><td>${fmt(c.cost)}<br><small>${c.blocks} blocks</small></td></tr>`; }).join('');
     const f = $('fence').checked; $('fenceBox').hidden = !f;
     if (f) {
       const posts = Math.ceil(L / C.POST_SPACING) + 1, pp = parseFloat($('postPrice').value);
       $('fenceOut').innerHTML = `<b>${posts} posts</b> at ${C.POST_SPACING} m max c/c, cored through the limestone and grouted.` +
-        (pp ? ` Posts: ${fmt(posts * pp)} ex GST (not in total above).` : '') +
+        (pp ? ` Posts: ${fmt(posts * pp)} (not in total above).` : '') +
         `<br>Within ${C.ANCHOR_ZONE} m of a fence free end: 550×550×650 concrete anchor blocks with 2N12 dowels, or posts at 1200 c/c. Fence max 1800 high; wall min 900 high for posts.`;
     }
   }

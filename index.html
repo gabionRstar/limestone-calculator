@@ -9,12 +9,12 @@
 <label>Visible wall height (mm)</label><div class="pair"><input type="range" id="hR" min="350" max="3000" step="50" value="900"><input type="number" id="h" min="350" step="10" value="900"></div>
 <p id="warn" class="warn" hidden>Over 3000 mm is outside the H23R engineering. Needs separate engineering (calculated at 3000).</p>
 <label class="chk"><input type="checkbox" id="eng"> Full engineering base width (H23R taper)</label>
-<label>Price per block installed (ex GST, $)</label><input type="number" id="price" step="1">
+<label>Price per block installed ($)</label><input type="number" id="price" step="1">
 <label class="chk"><input type="checkbox" id="fence"> Colorbond fence over the wall</label>
-<div id="fenceBox" hidden><label>Price per fence post (ex GST, $, optional)</label><input type="number" id="postPrice" placeholder="leave blank"><p id="fenceOut" class="note"></p></div>
+<div id="fenceBox" hidden><label>Price per fence post ($, optional)</label><input type="number" id="postPrice" placeholder="leave blank"><p id="fenceOut" class="note"></p></div>
 </section>
 <section class="card result"><div id="mode" class="perm"></div><div class="big" id="total"></div><div id="perm" class="perm"></div><p id="range" class="warn" hidden>Outside quoted range – confirm with contractor.</p><div id="out"></div></section>
-<section class="card"><h2>CHECKED AGAINST PAST QUOTES</h2><table><thead><tr><th>Job</th><th>Bret quote (ex GST)</th><th>Calculator (ex GST)</th></tr></thead><tbody id="quotes"></tbody></table></section>
+<section class="card"><h2>CHECKED AGAINST PAST QUOTES</h2><table><thead><tr><th>Job</th><th>Bret quote</th><th>Calculator</th></tr></thead><tbody id="quotes"></tbody></table></section>
 <section class="card"><h2>ASSUMPTIONS</h2><ul>
 <li>Based on a Structerre H23R single-job engineering detail (max height 3000 mm). Each job needs its own engineering.</li>
 <li>Base width = H/2 + 200 mm (min 650 mm up to 1000 mm high). Embedment 200 mm (300 mm over 1000 mm high).</li>
@@ -23,6 +23,5 @@
 <li>Stable sand or rock soils only. Free-draining granular backfill. Water table below the bottom of the wall.</li>
 <li>Foundation and backfill compacted to 6 blows/300 mm. Surcharge max 5 kPa.</li>
 <li>Excludes engineering, council or building permit, Water Corporation approval, excavation or removal of fill, drainage, and fence panels.</li>
-<li>Block price is ex GST. GST of 10% is added to the headline total.</li>
 <li>Indicative only. Final quote after a site inspection.</li></ul></section>
 </main><script src="limestone.js"></script></body></html>

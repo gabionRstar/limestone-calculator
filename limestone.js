@@ -8,25 +8,29 @@ const C = {
   EMBED_LOW: 200, EMBED_HIGH: 300, EMBED_SWITCH: 1000, // mm
   POST_SPACING: 2.4,     // m, fence posts max c/c
   ANCHOR_ZONE: 3.6,      // m from fence free ends
-  // Contractor (Bret) calibration: [visible height mm, blocks per metre of wall]
-  CAL: [[500, 2.4], [1000, 3.9], [1500, 8.0]],
+  // Contractor (Bret) calibration: [visible height mm, blocks/m used, low, high]
+  // 500: Noranda 2.4 & 14m job 2.6 -> avg 2.5.  1500: South Lake 8.0 & Greenwood 11.7 -> avg 9.85
+  CAL: [[500, 2.5, 2.4, 2.6], [1000, 3.9, 3.9, 3.9], [1500, 9.85, 8.0, 11.7]],
   QUOTED_MAX: 1500,      // mm, above this = outside quoted range
   QUOTES: [ // past jobs shown in 'Checked against past quotes'
     { job: 'Noranda', L: 28, H: 500, quote: 6000 },
     { job: 'Baldivis', L: 23, H: 1000, quote: 8000 },
-    { job: 'South Lake', L: 15, H: 1500, quote: 11000, note: 'about 120 blocks' }
+    { job: 'South Lake', L: 15, H: 1500, quote: 11000, note: 'about 120 blocks' },
+    { job: 'Greenwood', L: 20, H: 1500, quote: 21000, note: 'approx.' },
+    { job: '14 m job', L: 14, H: 500, quote: 3300 }
   ]
 };
 // Linear interpolation; extrapolates using the nearest segment's slope
-function bretBpm(H) {
-  const p = C.CAL; let i = 0;
+function bretBpm(H, col = 1) {
+  const p = C.CAL.map(r => [r[0], r[col] ?? r[1]]); let i = 0;
   while (i < p.length - 2 && H > p[i + 1][0]) i++;
   const [h0, b0] = p[i], [h1, b1] = p[i + 1];
   return Math.max(1000 / (C.BLOCK_L + C.MORTAR), b0 + (b1 - b0) * (H - h0) / (h1 - h0));
 }
 function calcBret(L, H, price) {
   const bpm = bretBpm(H), blocks = Math.ceil(L * bpm - 1e-9);
-  return { bpm, blocks, cost: blocks * price, perM: bpm * price, outside: H > C.QUOTED_MAX };
+  const lo = Math.ceil(L * bretBpm(H, 2) - 1e-9), hi = Math.ceil(L * bretBpm(H, 3) - 1e-9);
+  return { bpm, blocks, lo, hi, cost: blocks * price, perM: bpm * price, outside: H > C.QUOTED_MAX };
 }
 function calc(L, H, price) {
   const embed = H <= C.EMBED_SWITCH ? C.EMBED_LOW : C.EMBED_HIGH;
@@ -62,7 +66,8 @@ if (typeof document !== 'undefined') {
     const rows = [['Total blocks', r.blocks], ['Blocks per metre', r.bpm.toFixed(2)]];
     if (eng) rows.push(['Courses', e.courses + ' (' + e.total + ' mm incl. embedment)'], ['Base width', Math.round(e.base) + ' mm'],
       ['Embedment', e.embed + ' mm'], ['Blocks wide bottom→top', e.list.join(' · ')], ['Contractor layout would be', fmt(b.cost) + ' (' + b.blocks + ' blocks)']);
-    else rows.push(['Full engineering base would be', fmt(e.cost) + ' (' + e.blocks + ' blocks)']);
+    else { if (b.hi !== b.lo) rows.push(['Range from past quotes', fmt(b.lo * p) + ' – ' + fmt(b.hi * p) + ' (' + b.lo + '–' + b.hi + ' blocks)']);
+      rows.push(['Full engineering base would be', fmt(e.cost) + ' (' + e.blocks + ' blocks)']); }
     $('out').innerHTML = rows.map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`).join('');
     $('quotes').innerHTML = C.QUOTES.map(q => { const c = calcBret(q.L, q.H, p);
       return `<tr><td>${q.job}<br><small>${q.L} m × ${q.H} mm${q.note ? ', ' + q.note : ''}</small></td><td>${fmt(q.quote)}</td><td>${fmt(c.cost)}<br><small>${c.blocks} blocks</small></td></tr>`; }).join('');

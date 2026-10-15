@@ -23,7 +23,7 @@ function calc(L, H, price) {
     const f = courses > 1 ? i / (courses - 1) : 0;
     const n = wide(base - (base - C.BLOCK_W) * f); list.push(n); sum += n;
   }
-  const bpm = sum / ((C.BLOCK_L + C.MORTAR) / 1000);
+  const bpm = Math.ceil(sum / ((C.BLOCK_L + C.MORTAR) / 1000) - 1e-9); // rounded up to whole blocks/m
   const blocks = Math.ceil(L * bpm - 1e-9);
   return { embed, base, total, courses, list, bpm, blocks, cost: blocks * price, perM: bpm * price };
 }
@@ -44,7 +44,7 @@ if (typeof document !== 'undefined') {
     $('perm').textContent = fmt(e.perM + (f ? fp : 0)) + ' / m';
     const rows = [['Limestone wall', fmt(e.cost)]];
     if (f) rows.push(['Colorbond fence ' + C.FENCE_H + ' m', fmt(fc)]);
-    rows.push(['<b>Total</b>', fmt(e.cost + fc)], ['Total blocks', e.blocks], ['Blocks per metre', e.bpm.toFixed(2)],
+    rows.push(['<b>Total</b>', fmt(e.cost + fc)], ['Total blocks', e.blocks], ['Blocks per metre', e.bpm],
       ['Wall $ per metre', fmt(e.perM) + ' / m'], ['Courses', e.courses + ' (' + e.total + ' mm incl. embedment)'],
       ['Base width', Math.round(e.base) + ' mm'], ['Embedment', e.embed + ' mm'], ['Blocks wide bottom→top', e.list.join(' · ')]);
     $('out').innerHTML = rows.map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`).join('');

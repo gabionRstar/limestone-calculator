@@ -12,7 +12,15 @@ const C = {
   FENCE_H: 1.8,          // m
   MIN_WALL_POSTS: 900    // mm, min wall height for fence posts
 };
+const SMALL = { // under-900 layouts approved by Joshua: blocks wide per course, bottom up
+  400: { list: [1, 1], h: [165, 350], base: 350 }, 500: { list: [1, 1], h: [350, 350], base: 350 },
+  600: { list: [2, 2, 1], h: [165, 350, 350], base: 720 }, 700: { list: [2, 2, 1], h: [165, 350, 350], base: 720 },
+  800: { list: [2, 2, 1], h: [350, 350, 350], base: 720 }
+};
 function calc(L, H, price) {
+  const sm = SMALL[Math.round(H / 100) * 100];
+  if (H < 900 && sm) { const bpm = sm.list.reduce((a, b) => a + b, 0), blocks = Math.ceil(L * bpm - 1e-9);
+    return { embed: 200, base: sm.base, total: H + 200, courses: sm.list.length, list: sm.list, bpm, blocks, cost: blocks * price, perM: bpm * price }; }
   const embed = H <= C.EMBED_SWITCH ? C.EMBED_LOW : C.EMBED_HIGH;
   let base = H / 2 + 200; if (H <= C.EMBED_SWITCH) base = Math.max(base, C.MIN_BASE);
   const total = H + embed, ch = C.BLOCK_H + C.MORTAR, pw = C.BLOCK_W + C.MORTAR;
@@ -27,7 +35,7 @@ function calc(L, H, price) {
   const blocks = Math.ceil(L * bpm - 1e-9);
   return { embed, base, total, courses, list, bpm, blocks, cost: blocks * price, perM: bpm * price };
 }
-const SIDE=['0900','1000','1100','1200','1300-1500','1600-1700','1800-1900','2000','2100-2200','2300','2400-2500','2600','2700-2800','2900-3000'];
+const SIDE=['0400','0500','0600','0700','0800','0900','1000','1100','1200','1300-1500','1600-1700','1800-1900','2000','2100-2200','2300','2400-2500','2600','2700-2800','2900-3000'];
 function sideFile(H){for(const r of SIDE){const [a,b=a]=r.split('-').map(Number);if(H>=a&&H<=b)return 'img/wall-'+r+'.png';}return null;}
 if (typeof module !== 'undefined') module.exports = { calc, C, sideFile };
 if (typeof document !== 'undefined') {

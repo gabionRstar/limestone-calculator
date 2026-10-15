@@ -3,25 +3,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="styles.css"></head>
 <body><main>
 <h1>LIMESTONE BLOCK WALL <span>QUOTE</span> CALCULATOR</h1>
-<p class="sub">Blocks 1000 × 350 × 350 mm with 20 mm mortar joints. Calibrated to Bret's past installed quotes. Engineering option based on Structerre H23R detail.</p>
+<p class="sub">Blocks 1000 × 350 × 350 mm with 20 mm mortar joints. Built to the Structerre H23R engineering detail (tapered base).</p>
 <section class="card">
 <label>Wall length (m)</label><div class="pair"><input type="range" id="lenR" min="1" max="100" step="0.5" value="10"><input type="number" id="len" min="0" step="0.5" value="10"></div>
-<label>Visible wall height (mm)</label><div class="pair"><input type="range" id="hR" min="350" max="3000" step="50" value="900"><input type="number" id="h" min="350" step="10" value="900"></div>
+<label>Visible wall height (mm)</label><div class="pair"><input type="range" id="hR" min="400" max="3000" step="100" value="900"><input type="number" id="h" min="400" max="3000" step="100" value="900"></div>
 <p id="warn" class="warn" hidden>Over 3000 mm is outside the H23R engineering. Needs separate engineering (calculated at 3000).</p>
-<label class="chk"><input type="checkbox" id="eng"> Full engineering base width (H23R taper)</label>
 <label>Price per block installed ($)</label><input type="number" id="price" step="1">
 <label class="chk"><input type="checkbox" id="fence"> Colorbond fence over the wall</label>
-<div id="fenceBox" hidden><label>Price per fence post ($, optional)</label><input type="number" id="postPrice" placeholder="leave blank"><p id="fenceOut" class="note"></p></div>
+<div id="fenceBox" hidden><label>Colorbond fence 1.8 m ($ per linear metre)</label><input type="number" id="fencePrice" step="1"><p id="fenceOut" class="note"></p></div>
 </section>
-<section class="card result"><div id="mode" class="perm"></div><div class="big" id="total"></div><div id="perm" class="perm"></div><p id="range" class="warn" hidden>Outside quoted range – confirm with contractor.</p><div id="out"></div></section>
-<section class="card"><h2>CHECKED AGAINST PAST QUOTES</h2><table><thead><tr><th>Job</th><th>Bret quote</th><th>Calculator</th></tr></thead><tbody id="quotes"></tbody></table></section>
+<section class="card result"><div class="perm">Engineered H23R taper</div><div class="big" id="total"></div><div id="perm" class="perm"></div><div id="out"></div></section>
 <section class="card"><h2>ASSUMPTIONS</h2><ul>
 <li>Based on a Structerre H23R single-job engineering detail (max height 3000 mm). Each job needs its own engineering.</li>
 <li>Base width = H/2 + 200 mm (min 650 mm up to 1000 mm high). Embedment 200 mm (300 mm over 1000 mm high).</li>
-<li>Default: Contractor (Bret) layout. Blocks per metre interpolated from Bret's past quotes (500 mm → 2.5, 1000 mm → 3.9, 1500 mm → 9.85, the average of quotes ranging 8.0–11.7). Where past quotes differ, the low–high range is shown. Above 1500 mm is extrapolated.</li>
-<li>Engineering toggle: wall tapers evenly from base width to 1 block wide at the top. Courses are 370 mm (block + mortar).</li>
+<li>Wall tapers evenly from the base width to 1 block wide at the top. Courses are 370 mm (350 block + 20 mortar); blocks laid at 1.02 m along the wall.</li>
+<li>Colorbond fence option: 1.8 m high, priced per linear metre of wall (default $110/m), added to the total. Posts at 2.4 m max centres cored and grouted into the limestone; min 900 mm wall height for posts.</li>
 <li>Stable sand or rock soils only. Free-draining granular backfill. Water table below the bottom of the wall.</li>
 <li>Foundation and backfill compacted to 6 blows/300 mm. Surcharge max 5 kPa.</li>
-<li>Excludes engineering, council or building permit, Water Corporation approval, excavation or removal of fill, drainage, and fence panels.</li>
+<li>Excludes engineering, council or building permit, Water Corporation approval, excavation or removal of fill, and drainage.</li>
 <li>Indicative only. Final quote after a site inspection.</li></ul></section>
 </main><script src="limestone.js"></script></body></html>

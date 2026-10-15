@@ -27,7 +27,9 @@ function calc(L, H, price) {
   const blocks = Math.ceil(L * bpm - 1e-9);
   return { embed, base, total, courses, list, bpm, blocks, cost: blocks * price, perM: bpm * price };
 }
-if (typeof module !== 'undefined') module.exports = { calc, C };
+const SIDE=['0900','1000','1100','1200','1300-1500','1600-1700','1800-1900','2000','2100-2200','2300','2400-2500','2600','2700-2800','2900-3000'];
+function sideFile(H){for(const r of SIDE){const [a,b=a]=r.split('-').map(Number);if(H>=a&&H<=b)return 'img/wall-'+r+'.png';}return null;}
+if (typeof module !== 'undefined') module.exports = { calc, C, sideFile };
 if (typeof document !== 'undefined') {
   const $ = id => document.getElementById(id), fmt = n => '$' + Math.round(n).toLocaleString('en-AU');
   $('price').value = C.PRICE_DEFAULT; $('fencePrice').value = C.FENCE_PRICE;
@@ -50,6 +52,10 @@ if (typeof document !== 'undefined') {
     $('out').innerHTML = rows.map(([k, v]) => `<div class="row"><span>${k}</span><b>${v}</b></div>`).join('');
     if (f) $('fenceOut').innerHTML = `Posts at ${C.POST_SPACING} m max centres, cored through the limestone and grouted. Min wall height ${C.MIN_WALL_POSTS} mm for posts.` +
       (H < C.MIN_WALL_POSTS ? ' <b>Wall is below the minimum height for fence posts.</b>' : '');
+    const hh = Math.min(H, C.MAX_H), sf = sideFile(Math.round(hh / 100) * 100);
+    $('sideFig').hidden = !sf; $('sideNote').hidden = !!sf;
+    if (sf) { if (!$('sideImg').src.endsWith(sf)) $('sideImg').src = sf;
+      $('sideImg').alt = `Side view of a ${hh} mm limestone wall, ${e.courses} courses laid ${e.list.join('·')} blocks wide from the bottom up`; }
   }
   run();
 }
